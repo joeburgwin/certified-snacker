@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* ---------- Semantic colour tokens (OKLCH). Light is the default. ---------- */
+:root {
+  --bg: oklch(0.99 0 0);
+  --surface: oklch(0.975 0.003 90);
+  --raised: oklch(1 0 0);
+  --border: oklch(0.9 0.004 90);
+  --text: oklch(0.22 0.01 90);
+  --muted: oklch(0.5 0.01 90);
+  --accent: oklch(0.62 0.15 150);
+  --accent-fg: oklch(0.99 0 0);
+  --accent-soft: oklch(0.95 0.04 150);
+  --amber: oklch(0.78 0.14 75);
+  --amber-soft: oklch(0.96 0.05 75);
+  --rose: oklch(0.62 0.18 20);
+  --rose-soft: oklch(0.96 0.04 20);
+
+  /* Motion */
+  --dur-micro: 120ms;
+  --dur-move: 220ms;
+  --dur-sheet: 320ms;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: oklch(0.17 0.005 90);
+    --surface: oklch(0.21 0.005 90);
+    --raised: oklch(0.24 0.005 90);
+    --border: oklch(0.3 0.006 90);
+    --text: oklch(0.93 0.005 90);
+    --muted: oklch(0.65 0.01 90);
+    --accent: oklch(0.72 0.14 150);
+    --accent-fg: oklch(0.17 0.005 90);
+    --accent-soft: oklch(0.28 0.05 150);
+    --amber: oklch(0.8 0.13 75);
+    --amber-soft: oklch(0.3 0.06 75);
+    --rose: oklch(0.68 0.16 20);
+    --rose-soft: oklch(0.3 0.06 20);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: oklch(0.17 0.005 90);
+  --surface: oklch(0.21 0.005 90);
+  --raised: oklch(0.24 0.005 90);
+  --border: oklch(0.3 0.006 90);
+  --text: oklch(0.93 0.005 90);
+  --muted: oklch(0.65 0.01 90);
+  --accent: oklch(0.72 0.14 150);
+  --accent-fg: oklch(0.17 0.005 90);
+  --accent-soft: oklch(0.28 0.05 150);
+  --amber: oklch(0.8 0.13 75);
+  --amber-soft: oklch(0.3 0.06 75);
+  --rose: oklch(0.68 0.16 20);
+  --rose-soft: oklch(0.3 0.06 20);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-micro: 1ms;
+    --dur-move: 1ms;
+    --dur-sheet: 1ms;
+  }
+}
+
+/* ---------- Tailwind theme: utilities are generated from these ---------- */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-rose: var(--rose);
+  --color-rose-soft: var(--rose-soft);
+
+  /* Type scale: 11/16 meta, 13/20 ui, 15/24 body, 20/28 title, 28/34 display */
+  --text-meta: 0.6875rem;
+  --text-meta--line-height: 1rem;
+  --text-ui: 0.8125rem;
+  --text-ui--line-height: 1.25rem;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.5rem;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.75rem;
+  --text-title--letter-spacing: -0.01em;
+  --text-display: 1.75rem;
+  --text-display--line-height: 2.125rem;
+  --text-display--letter-spacing: -0.01em;
+
+  /* Radii */
+  --radius-control: 6px;
+  --radius-card: 10px;
+  --radius-sheet: 16px;
+
+  /* Easings */
+  --ease-out: var(--ease-out);
+  --ease-standard: var(--ease-standard);
+  --ease-sheet: var(--ease-sheet);
+
+  --default-transition-duration: var(--dur-micro);
+  --default-transition-timing-function: var(--ease-out);
+}
+
+/* Explicit dark variant for the rare case a utility must differ by theme. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-bg text-text font-sans text-body antialiased;
+  }
+  * {
+    border-color: var(--border);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-control);
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
