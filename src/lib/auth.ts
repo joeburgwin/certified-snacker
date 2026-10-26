@@ -29,7 +29,10 @@ export const auth = betterAuth({
   },
   // Preview deployments live on *.vercel.app; production uses the canonical URL only.
   trustedOrigins: isProd
-    ? []
+    ? [
+        "https://certified-snacker.vercel.app",
+        "https://certified-snacker-burgwin.vercel.app",
+      ]
     : ["https://*.vercel.app", "http://localhost:3000"],
   plugins: [nextCookies()],
 });

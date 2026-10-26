@@ -15,6 +15,13 @@
       "when": 1792971722122,
       "tag": "0001_init",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792973265091,
+      "tag": "0002_m1_plan_recipes_shopping",
+      "breakpoints": true
     }
   ]
 }

@@ -5,11 +5,14 @@ import { and, eq, isNull } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/db";
-import { household, householdToken, person } from "@/db/schema";
+import { aisle, household, householdToken, person } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { appUrl } from "@/lib/env";
 import { type ActionResult, fail, ok } from "@/server/action-result";
 import { getCtxOrNull, getSession, requireCtx } from "@/server/ctx";
+import { saveRecipe } from "@/server/recipes/save";
+import aisleNames from "../../../data/aisles-waitrose.json";
+import starterBundles from "../../../data/bundles-starter.json";
 
 const onboardingSchema = z.object({
   householdName: z.string().trim().min(1, "Give the household a name").max(60),
@@ -43,13 +46,17 @@ export async function createHousehold(
       .values({ name: householdName })
       .returning({ id: household.id });
     if (!h) throw new Error("household insert failed");
-    await tx.insert(person).values({
-      householdId: h.id,
-      userId: session.user.id,
-      displayName: yourName,
-      role: "manager",
-      sortOrder: 0,
-    });
+    const [me] = await tx
+      .insert(person)
+      .values({
+        householdId: h.id,
+        userId: session.user.id,
+        displayName: yourName,
+        role: "manager",
+        sortOrder: 0,
+      })
+      .returning({ id: person.id });
+    if (!me) throw new Error("person insert failed");
     if (partnerName) {
       await tx.insert(person).values({
         householdId: h.id,
@@ -57,6 +64,38 @@ export async function createHousehold(
         role: "member",
         sortOrder: 1,
       });
+    }
+    // Seed the Waitrose aisle order and three starter set breakfasts so the first week can be planned at once.
+    await tx.insert(aisle).values(
+      aisleNames.map((name, position) => ({
+        householdId: h.id,
+        name,
+        position,
+      })),
+    );
+    for (const b of starterBundles) {
+      await saveRecipe(
+        tx,
+        { householdId: h.id, personId: me.id },
+        {
+          kind: "bundle",
+          title: b.title,
+          servings: 1,
+          mealTypes: b.mealTypes as ["breakfast"],
+          tags: [],
+          steps: [],
+          lines: b.lines.map((l) => ({
+            rawText: l.rawText,
+            quantity: l.quantity,
+            quantityMax: null,
+            unit: l.unit,
+            nameNormalised: l.name,
+            preparation: null,
+            isOptional: false,
+            groupName: null,
+          })),
+        },
+      );
     }
   });
   redirect("/week");

@@ -1,0 +1,64 @@
+[
+  {
+    "title": "Granola & yogurt",
+    "mealTypes": ["breakfast"],
+    "lines": [
+      {
+        "rawText": "50 g granola",
+        "quantity": 50,
+        "unit": "g",
+        "name": "granola"
+      },
+      {
+        "rawText": "150 g Greek yogurt",
+        "quantity": 150,
+        "unit": "g",
+        "name": "Greek yogurt"
+      },
+      {
+        "rawText": "80 g berries",
+        "quantity": 80,
+        "unit": "g",
+        "name": "berries"
+      }
+    ]
+  },
+  {
+    "title": "Porridge",
+    "mealTypes": ["breakfast"],
+    "lines": [
+      {
+        "rawText": "50 g porridge oats",
+        "quantity": 50,
+        "unit": "g",
+        "name": "porridge oats"
+      },
+      {
+        "rawText": "300 ml milk",
+        "quantity": 300,
+        "unit": "ml",
+        "name": "milk"
+      },
+      { "rawText": "1 banana", "quantity": 1, "unit": null, "name": "banana" }
+    ]
+  },
+  {
+    "title": "Eggs on toast",
+    "mealTypes": ["breakfast"],
+    "lines": [
+      { "rawText": "2 eggs", "quantity": 2, "unit": null, "name": "egg" },
+      {
+        "rawText": "2 slices bread",
+        "quantity": 2,
+        "unit": "slice",
+        "name": "bread"
+      },
+      {
+        "rawText": "10 g butter",
+        "quantity": 10,
+        "unit": "g",
+        "name": "butter"
+      }
+    ]
+  }
+]
